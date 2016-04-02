@@ -55,6 +55,8 @@ test <- test[,(colSums(is.na(test)) == 0)]
 ### Slice the data
 ```{r, echo=FALSE}
 library(caret)
+library(rpart)
+library(rpart.plot)
 set.seed(12345)
 train$classe <- classe
 inTrain <- createDataPartition(train$classe, p=0.70, list=F)
@@ -71,16 +73,16 @@ modelRf
 Then, we estimate the performance of the model on the validation data set.
 ```{r}
 predictRf <- predict(modelRf, testData)
-confusionMatrix(testData$classe, predictGbm)
-accuracy <- postResample(predictGbm, testData$classe)
+confusionMatrix(testData$classe, predictRf)
+accuracy <- postResample(predictRf, testData$classe)
 accuracy
 ```
-The estimated accuracy of the model is 99.42% 
+The estimated accuracy of the model is 98.86% 
 
 ## Predicting for Test Data Set
 we apply the model to the original testing data set downloaded from the data source. 
 ```{r}
-result <- predict(modelRf, testCleaned[, -length(names(testCleaned))])
+result <- predict(modelRf, test[, 1:52])
 result
 ```
 
