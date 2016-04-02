@@ -39,14 +39,11 @@ The first 7 columns are useless for prediction, so I remove them.
 ```{r,echo=FALSE}
 train <- trainRaw[,-(1:7)]
 test <- testRaw[,-(1:7)]
-classe <- trainRaw$classe
 ```
 The NA percentages are 97.93% in 67 variables, for the left 86 variables they are all complete cases. So we will remove all the 67 variables.
 ```{r,echo=FALSE}
 numOfTrain <- nrow(train)
 table(((colSums(is.na(train)))/numOfTrain) * 100)
-train <- train[, sapply(train, is.numeric)]
-test <- test[, sapply(test, is.numeric)]
 train <- train[,(colSums(is.na(train)) == 0)]
 test <- test[,(colSums(is.na(test)) == 0)]
 ```
@@ -56,21 +53,19 @@ test <- test[,(colSums(is.na(test)) == 0)]
 ```{r, echo=FALSE}
 library(caret)
 set.seed(12345)
-train$classe <- classe
 inTrain <- createDataPartition(train$classe, p=0.70, list=F)
 trainData <- train[inTrain, ]
 testData <- train[-inTrain, ]
 ```
-We fit a predictive model for activity recognition using Random Forest algorithm because it automatically selects important variables and is robust to correlated covariates & outliers in general. We will use 5-fold cross validation when applying the algorithm.
+We fit a predictive model for activity recognition using Random Forest algorithm because it automatically selects important variables and is robust to correlated covariates & outliers in general. We will use 3-fold cross validation when applying the algorithm.
 
 ```{r}
-controlRf <- trainControl(method="cv", 5)
-modelRf <- train(classe ~ ., data=trainData, method="rf", trControl=controlRf, ntree=250)
+modelRf <- train(classe ~ ., data=trainData, method="rf",prox=TRUE)
 modelRf
 ```
 Then, we estimate the performance of the model on the validation data set.
 ```{r}
-predictRf <- predict(modelRf, testData)
+predictGbm <- predict(modelGbm, testData)
 confusionMatrix(testData$classe, predictGbm)
 accuracy <- postResample(predictGbm, testData$classe)
 accuracy

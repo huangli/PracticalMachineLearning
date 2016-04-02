@@ -1,2 +1,2 @@
 # Practical Machine Learning
-This is the Prediction Assignment Writeup for course [Practical Machine Learning](https://class.coursera.org/predmachlearn-006). Please check the page [Prediction Assignment Writeup.html](https://class.coursera.org/predmachlearn-006)
+This is the Prediction Assignment Writeup for course [Practical Machine Learning](https://class.coursera.org/predmachlearn-006). Please check the page [Prediction Assignment Writeup.html](https://github.com/huangli/PracticalMachineLearning/blob/master/Prediction%20Assignment%20Writeup.html)
