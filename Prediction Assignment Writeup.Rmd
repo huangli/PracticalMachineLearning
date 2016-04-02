@@ -71,6 +71,21 @@ Then, we estimate the performance of the model on the validation data set.
 ```{r}
 predictRf <- predict(modelRf, testData)
 confusionMatrix(testData$classe, predictRf)
-```
 accuracy <- postResample(predictRf, testData$classe)
 accuracy
+```
+The estimated accuracy of the model is 99.42% 
+
+## Predicting for Test Data Set
+we apply the model to the original testing data set downloaded from the data source. 
+```{r}
+result <- predict(modelRf, testCleaned[, -length(names(testCleaned))])
+result
+```
+
+## Appenix: Figures
+### Tree Visualization
+```{r}
+treeModel <- rpart(classe ~ ., data=trainData, method="class")
+prp(treeModel) # fast plot
+```
